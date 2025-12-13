@@ -1,63 +1,63 @@
-/// Initial empty array to hold todo items
+/// Store todos
 let todo = [];
 
 function addTodo() {
     const todoInput = document.getElementById("todo-input");
     const todoDate = document.getElementById("todo-date");
 
-    /// Validation to ensure both fields are filled
     if (todoInput.value === "" || todoDate.value === "") {
         alert("Please fill in both the todo item and the date.");
-    } else {
-        const todoObj = {
-            task: todoInput.value,
-            date: todoDate.value
-        };
-
-        todo.push(todoObj);
-
-        renderTodos();
-
-        /// Clear input fields after adding
-        todoInput.value = "";
-        todoDate.value = "";
+        return;
     }
+
+    todo.push({
+        task: todoInput.value,
+        date: todoDate.value
+    });
+
+    renderTodos();
+
+    todoInput.value = "";
 }
 
-/// Function to reset the todo list
+/// Clear all todos
 function resetTodos() {
     todo = [];
     renderTodos();
 }
 
-/// Function to render todo items to the DOM
+/// Render todos (default: all)
 function renderTodos(list = todo) {
     const todoList = document.getElementById("todo-list");
-
-    // Clear existing list
     todoList.innerHTML = "";
 
-    // Render each todo item
+    if (list.length === 0) {
+        todoList.innerHTML =
+            `<li class="text-gray-500">No todos available</li>`;
+        return;
+    }
+
     list.forEach(item => {
         todoList.innerHTML += `
-            <li>
-                <p>
-                    ${item.task}
-                    <span>(${item.date})</span>
-                </p>
-                <hr>
-            </li>
-        `;
+        <li>
+            <p class="text-2xl">
+                ${item.task}
+                <span class="text-sm text-gray-500">(${item.date})</span>
+            </p>
+            <hr />
+        </li>`;
     });
 }
 
-/// Function to filter todo items by date
+/// Filter using the SAME date field
 function filterTodos() {
-    const filterDate = document.getElementById("filter-date").value;
+    const selectedDate = document.getElementById("todo-date").value;
 
-    const filteredTodos = todo.filter(item => {
-        return filterDate ? item.date === filterDate : true;
-    });
+    if (selectedDate === "") {
+        alert("Please select a date to filter.");
+        return;
+    }
 
-    renderTodos(filteredTodos);
+    const filtered = todo.filter(item => item.date === selectedDate);
+    renderTodos(filtered);
 }
