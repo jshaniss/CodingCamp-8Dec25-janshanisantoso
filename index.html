@@ -22,26 +22,58 @@
     <main>
         <!-- Form Section -->
         <section>
-            <form>
+            <form onsubmit="return false;">
                 <!-- Todo Input -->
-                <input class="border rounded p-2" type="text" id="todo-input" placeholder="Enter a new todo item">
+                <input
+                    class="border rounded p-2"
+                    type="text"
+                    id="todo-input"
+                    placeholder="Enter a new todo item">
 
                 <!-- Date Input -->
-                <input class="border rounded p-2" type="date" id="todo-date" placeholder="Enter due date">
+                <input
+                    class="border rounded p-2"
+                    type="date"
+                    id="todo-date">
             </form>
 
             <!-- Add Button -->
-            <button class="border rounded p-2 bg-green-500 text-white" onclick="addTodo();" type="button">Add
-                Todo</button>
+            <button
+                class="border rounded p-2 bg-green-500 text-white"
+                onclick="addTodo();"
+                type="button">
+                Add Todo
+            </button>
         </section>
 
         <!-- Action Section -->
-        <section class="flex pt-2 justify-between">
+        <section class="flex pt-2 justify-between items-center">
             <!-- Clear All Button -->
-            <button class="border rounded p-2 bg-red-500 text-white" onclick="resetTodos();">Clear All Todos</button>
+            <button
+                class="border rounded p-2 bg-red-500 text-white"
+                onclick="resetTodos();">
+                Clear All Todos
+            </button>
 
-            <!-- Filter Options -->
-            <button class="border rounded p-2 bg-blue-500 text-white">Filter Todos</button>
+            <!-- Filter Section -->
+            <div class="flex gap-2">
+                <input
+                    class="border rounded p-2"
+                    type="date"
+                    id="filter-date">
+
+                <button
+                    class="border rounded p-2 bg-blue-500 text-white"
+                    onclick="filterTodos();">
+                    Filter Todos
+                </button>
+
+                <button
+                    class="border rounded p-2 bg-gray-500 text-white"
+                    onclick="renderTodos();">
+                    Show All
+                </button>
+            </div>
         </section>
 
         <!-- Todo List Section -->
@@ -51,8 +83,7 @@
             </header>
 
             <ul class="pt-2" id="todo-list">
-                <!-- Todo items will be dynamically added here -->
-                <li>No todos available</li>
+                <li class="text-gray-500">No todos available</li>
             </ul>
         </section>
     </main>
@@ -65,5 +96,4 @@
     <!-- Javascript External -->
     <script src="js/script.js"></script>
 </body>
-
 </html>
