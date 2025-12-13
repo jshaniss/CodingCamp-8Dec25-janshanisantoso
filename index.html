@@ -5,95 +5,133 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List - Shani</title>
 
-    <!-- CSS External File -->
-    <link rel="stylesheet" href="css/style.css">
-
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
-<body>
-    <!-- Header Content -->
-    <header class="pb-2">
-        <h1 class="text-2xl">Todo List - Shani</h1>
+<body class="p-4 max-w-xl mx-auto">
+    <!-- Header -->
+    <header class="pb-4">
+        <h1 class="text-3xl font-bold text-center">Todo List - Shani</h1>
     </header>
 
-    <!-- Main Content -->
+    <!-- Main -->
     <main>
-        <!-- Form Section -->
-        <section>
-            <form onsubmit="return false;">
-                <!-- Todo Input -->
-                <input
-                    class="border rounded p-2"
-                    type="text"
-                    id="todo-input"
-                    placeholder="Enter a new todo item">
+        <!-- Input Section -->
+        <section class="flex gap-2 mb-4">
+            <input
+                class="border rounded p-2 flex-1"
+                type="text"
+                id="todo-input"
+                placeholder="Enter a new todo">
 
-                <!-- Date Input -->
-                <input
-                    class="border rounded p-2"
-                    type="date"
-                    id="todo-date">
-            </form>
+            <input
+                class="border rounded p-2"
+                type="date"
+                id="todo-date">
+        </section>
 
-            <!-- Add Button -->
+        <!-- Action Buttons -->
+        <section class="flex gap-2 mb-4">
             <button
-                class="border rounded p-2 bg-green-500 text-white"
-                onclick="addTodo();"
-                type="button">
+                class="flex-1 bg-green-500 text-white p-2 rounded"
+                onclick="addTodo()">
                 Add Todo
             </button>
-        </section>
 
-        <!-- Action Section -->
-        <section class="flex pt-2 justify-between items-center">
-            <!-- Clear All Button -->
             <button
-                class="border rounded p-2 bg-red-500 text-white"
-                onclick="resetTodos();">
-                Clear All Todos
+                class="flex-1 bg-blue-500 text-white p-2 rounded"
+                onclick="filterTodos()">
+                Filter
             </button>
 
-            <!-- Filter Section -->
-            <div class="flex gap-2">
-                <input
-                    class="border rounded p-2"
-                    type="date"
-                    id="filter-date">
-
-                <button
-                    class="border rounded p-2 bg-blue-500 text-white"
-                    onclick="filterTodos();">
-                    Filter Todos
-                </button>
-
-                <button
-                    class="border rounded p-2 bg-gray-500 text-white"
-                    onclick="renderTodos();">
-                    Show All
-                </button>
-            </div>
+            <button
+                class="flex-1 bg-gray-500 text-white p-2 rounded"
+                onclick="renderTodos()">
+                Show All
+            </button>
         </section>
 
-        <!-- Todo List Section -->
-        <section class="pt-2">
-            <header>
-                <h1 class="text-2xl font-semibold">List of Todos</h1>
-            </header>
+        <!-- Clear -->
+        <section class="mb-4">
+            <button
+                class="w-full bg-red-500 text-white p-2 rounded"
+                onclick="resetTodos()">
+                Clear All Todos
+            </button>
+        </section>
 
-            <ul class="pt-2" id="todo-list">
+        <!-- Todo List -->
+        <section>
+            <h2 class="text-xl font-semibold mb-2">List of Todos</h2>
+            <ul id="todo-list" class="space-y-2">
                 <li class="text-gray-500">No todos available</li>
             </ul>
         </section>
     </main>
 
-    <!-- Footer Content -->
-    <footer class="pt-2">
-        <p>&copy; 2025 Todo List App. All rights reserved.</p>
+    <!-- Footer -->
+    <footer class="mt-6 text-center text-sm text-gray-500">
+        &copy; 2025 Todo List App. All rights reserved.
     </footer>
 
-    <!-- Javascript External -->
-    <script src="js/script.js"></script>
+    <!-- JavaScript -->
+    <script>
+        let todo = [];
+
+        function addTodo() {
+            const input = document.getElementById("todo-input");
+            const date = document.getElementById("todo-date");
+
+            if (input.value === "" || date.value === "") {
+                alert("Please enter both todo and date.");
+                return;
+            }
+
+            todo.push({
+                task: input.value,
+                date: date.value
+            });
+
+            renderTodos();
+            input.value = "";
+        }
+
+        function resetTodos() {
+            todo = [];
+            renderTodos();
+        }
+
+        function renderTodos(list = todo) {
+            const todoList = document.getElementById("todo-list");
+            todoList.innerHTML = "";
+
+            if (list.length === 0) {
+                todoList.innerHTML =
+                    `<li class="text-gray-500">No todos available</li>`;
+                return;
+            }
+
+            list.forEach(item => {
+                todoList.innerHTML += `
+                <li class="border p-2 rounded">
+                    <p class="text-lg font-medium">${item.task}</p>
+                    <p class="text-sm text-gray-500">${item.date}</p>
+                </li>`;
+            });
+        }
+
+        function filterTodos() {
+            const date = document.getElementById("todo-date").value;
+
+            if (date === "") {
+                alert("Please select a date to filter.");
+                return;
+            }
+
+            const filtered = todo.filter(item => item.date === date);
+            renderTodos(filtered);
+        }
+    </script>
 </body>
 </html>
