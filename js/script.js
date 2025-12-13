@@ -12,7 +12,7 @@ function addTodo() {
         const todoObj = {
             task: todoInput.value,
             date: todoDate.value
-        }
+        };
 
         todo.push(todoObj);
 
@@ -27,35 +27,37 @@ function addTodo() {
 /// Function to reset the todo list
 function resetTodos() {
     todo = [];
-
-    /// Re-render the empty list
     renderTodos();
 }
 
 /// Function to render todo items to the DOM
-function renderTodos() {
-    const todoList = document.getElementById('todo-list');
+function renderTodos(list = todo) {
+    const todoList = document.getElementById("todo-list");
 
     // Clear existing list
-    todoList.innerHTML = '';
+    todoList.innerHTML = "";
 
     // Render each todo item
-    todo.forEach((todo, _) => {
+    list.forEach(item => {
         todoList.innerHTML += `
-        <li>
-            <p class="text-2xl">${todo.task} <span class="text-sm text-gray-500">(${todo.date})</span></p>
-            <hr />
-        </li>`;
+            <li>
+                <p>
+                    ${item.task}
+                    <span>(${item.date})</span>
+                </p>
+                <hr>
+            </li>
+        `;
     });
 }
 
-/// Placeholder for future filter functionality
+/// Function to filter todo items by date
 function filterTodos() {
-    const filterDate = document.getElementById("todo-date").value;
+    const filterDate = document.getElementById("filter-date").value;
 
-    const filtered = todo.filter(item => {
-        const matchesDate =
-            filterDate ? item.date === filterDate : true;
-        return matchesDate;
+    const filteredTodos = todo.filter(item => {
+        return filterDate ? item.date === filterDate : true;
     });
+
+    renderTodos(filteredTodos);
 }
